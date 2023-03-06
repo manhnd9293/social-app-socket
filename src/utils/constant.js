@@ -3,4 +3,9 @@ const SocketEvent = {
   FriendRequest: 'friend-request',
 }
 
-module.exports = {SocketEvent};
+const RequestState = {
+  Pending: 'pending',
+  Accepted: 'accepted'
+}
+
+module.exports = {SocketEvent, RequestState};
