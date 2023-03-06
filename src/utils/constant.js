@@ -8,4 +8,10 @@ const RequestState = {
   Accepted: 'accepted'
 }
 
-module.exports = {SocketEvent, RequestState};
+const AccountState = {
+  Pending: 'pending',
+  Active: 'active'
+}
+
+
+module.exports = {SocketEvent, RequestState, AccountState};

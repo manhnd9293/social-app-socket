@@ -10,7 +10,7 @@ const requestSchema = new Schema({
   state: {
     type: String,
     enum: {
-      value: Object.values(RequestState),
+      values: Object.values(RequestState),
       message: '${VALUE} is not supported'
     },
     default: RequestState.Pending,

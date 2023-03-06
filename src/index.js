@@ -18,6 +18,8 @@ const io = new IoServer(server, {
 io.on('connection', (socket) => {
   registerUserHandlers(io, socket);
 
+
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   })
@@ -25,7 +27,6 @@ io.on('connection', (socket) => {
 
 async function startServer() {
   try{
-
     await connectDb();
     const port = process.env.PORT || 6000;
     server.listen(port, () => {
