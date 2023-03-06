@@ -17,7 +17,8 @@ async function connectDb() {
     );
     console.log(`connect db success`);
   } catch (e) {
-    console.log(`connect db fail with error: ${e.toString()}`)
+    console.log(`connect db fail with error: ${e.toString()}`);
+    throw e;
   }
 }
 
