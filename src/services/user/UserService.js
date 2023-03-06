@@ -46,6 +46,10 @@ class UserService {
     }
   }
 
+  async createFriendRequest({from, to, message}) {
+
+  }
+
 
 
 

@@ -5,7 +5,8 @@ module.exports = (io, socket) => {
     socket.join([userId]);
   })
 
-  socket.on(SocketEvent.FriendRequest, data => {
+  socket.on(SocketEvent.FriendRequest, async data => {
+
     socket.to(data.to).emit(SocketEvent.FriendRequest, data);
   })
 }
