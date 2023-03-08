@@ -5,6 +5,8 @@ const {AccountState} = require("../../utils/Constant");
 const RequestModel = require("../request/RequestModel");
 const {DateTime} = require("luxon");
 const {RequestState} = require("../../utils/constant");
+const ConversationModel = require("../conversation/ConversationModel");
+const utils = require("../../utils/utils");
 
 
 class UserService {
@@ -87,6 +89,16 @@ class UserService {
     return data;
   }
 
+  async getRoomsForUser(userId) {
+    const userRoom = utils.getUserRoom(userId);
+    const conversationRoom = (await ConversationModel.find({
+      participants: {
+        $elemMatch: {$eq: userId}
+      }
+    })).map(con => utils.getConversationRoom(con._id.toString()));
+
+    return [userRoom, ...conversationRoom];
+  }
 
 }
 

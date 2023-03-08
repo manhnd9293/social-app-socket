@@ -2,10 +2,11 @@ const {SocketEvent} = require("../../utils/constant");
 const {UserService} = require("./UserService");
 
 module.exports = (io, socket) => {
-  socket.on(SocketEvent.JoinRoom, (data) => {
+  socket.on(SocketEvent.JoinRoom, async (data) => {
     const {_id: userId} = {...data};
-    socket.join([userId]);
-  })
+    const rooms = await UserService.getRoomsForUser(userId);
+    socket.join(rooms);
+  });
 
   socket.on(SocketEvent.FriendRequest, async (data) => {
     try {
