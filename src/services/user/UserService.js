@@ -100,6 +100,22 @@ class UserService {
     return [userRoom, ...conversationRoom];
   }
 
+
+  async verifyToken(token) {
+    if (!token) {
+      throw Error('No token provided');
+    }
+    const jwtsecret = process.env.JWT_SECRET;
+    return new Promise((resolve, reject) => {
+      jwt.verify(token, jwtsecret, (err, decoded) => {
+        if (err) {
+          reject(err);
+        }
+
+        resolve(decoded);
+      })
+    });
+  }
 }
 
 module.exports = {UserService: new UserService()}
