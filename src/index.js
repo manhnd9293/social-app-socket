@@ -27,7 +27,6 @@ io.on('connection', (socket) => {
   socket.on('auth', async data => {
     try{
       clearTimeout(timeout);
-      console.log(`clear timeout ${socket.id}`)
       const user = await UserService.verifyToken(data);
 
       registerUserHandlers(io, socket);

@@ -1,5 +1,6 @@
 const {SocketEvent} = require("../../utils/constant");
 const {UserService} = require("./UserService");
+const {getUserRoom} = require("../../utils/utils");
 
 module.exports = (io, socket) => {
   socket.on(SocketEvent.JoinRoom, async (data) => {
@@ -11,7 +12,7 @@ module.exports = (io, socket) => {
   socket.on(SocketEvent.FriendRequest, async (data) => {
     try {
       const request = await UserService.createFriendRequest(data);
-      socket.to(data.to).emit(SocketEvent.FriendRequest, request);
+      socket.to(getUserRoom(data.to)).emit(SocketEvent.FriendRequest, request);
     } catch (e) {
       console.log({
         status: 'Bad Request',
