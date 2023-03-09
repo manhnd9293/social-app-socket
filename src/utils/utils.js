@@ -1,5 +1,5 @@
 const utils = {
-  getUserRoom: (id) => `user:${id}`,
+  getNotiUserRoom: (id) => `user:${id}`,
   getConversationRoom: (conId) => `conversation:${conId}`
 }
 

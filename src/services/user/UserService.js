@@ -90,7 +90,7 @@ class UserService {
   }
 
   async getRoomsForUser(userId) {
-    const userRoom = utils.getUserRoom(userId);
+    const userRoom = utils.getNotiUserRoom(userId);
     const conversationRoom = (await ConversationModel.find({
       participants: {
         $elemMatch: {$eq: userId}

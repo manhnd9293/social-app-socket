@@ -18,7 +18,6 @@ const io = new IoServer(server, {
 
 io.on('connection', (socket) => {
   console.log('an user connection')
-  console.log(`start timeout for socket ${socket.id}`)
   const timeout = setTimeout(() => {
     console.log(`disconnect socket ${socket.id}`)
     socket.disconnect();

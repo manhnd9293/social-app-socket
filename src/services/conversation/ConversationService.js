@@ -4,7 +4,7 @@ const MessageModel = require("../message/MessageModel");
 class ConversationService {
 
   async handleNewMessage({from, textContent, conversationId}) {
-    const con = ConversationModel.findOne({_id: conversationId});
+    const con = await ConversationModel.findOne({_id: conversationId});
 
     if(!con) {
       throw Error('Conversation not exist');
