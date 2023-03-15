@@ -7,7 +7,8 @@ const server = http.createServer(app);
 const {Server: IoServer} = require('socket.io');
 const {connectDb} = require("./config/db/mongo");
 const registerUserHandlers = require('./services/user/UserHandler');
-const conversationHandler = require('./services/conversation/ConversationHandler');
+const registerConversationHandler = require('./services/conversation/ConversationHandler');
+const registerRequestHandler = require('./services/request/RequestHandler');
 const {UserService} = require("./services/user/UserService");
 const io = new IoServer(server, {
   cors: {
@@ -28,8 +29,10 @@ io.on('connection', (socket) => {
       clearTimeout(timeout);
       const user = await UserService.verifyToken(data);
 
-      registerUserHandlers(io, socket);
-      conversationHandler(io, socket);
+      const userId = user.id;
+      registerUserHandlers(io, socket, userId);
+      registerConversationHandler(io, socket, userId);
+      registerRequestHandler(io, socket, userId);
 
       socket.emit('auth-success', 'success');
 

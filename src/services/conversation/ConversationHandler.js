@@ -2,7 +2,7 @@ const {SocketEvent} = require("../../utils/constant");
 const {ConversationService} = require("./ConversationService");
 const utils = require("../../utils/utils");
 
-module.exports = (io, socket) => {
+module.exports = (io, socket, userId) => {
   socket.on(SocketEvent.MessageSent, async ({conversationId, from, textContent}) => {
     try {
       const newMessage = await ConversationService.handleNewMessage({conversationId, from, textContent});
@@ -16,5 +16,10 @@ module.exports = (io, socket) => {
         }
       })
     }
-  })
+  });
+
+  socket.on(SocketEvent.NewConversation, (conversation) => {
+    socket.join(utils.getConversationRoom(conversation._id));
+  });
+
 }
