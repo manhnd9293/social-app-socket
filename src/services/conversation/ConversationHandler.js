@@ -22,4 +22,12 @@ module.exports = (io, socket, userId) => {
     socket.join(utils.getConversationRoom(conversation._id));
   });
 
+  socket.on(SocketEvent.Typing, (data) => {
+    socket.to(utils.getConversationRoom(data.conversationId)).emit(SocketEvent.Typing, data);
+  })
+
+  socket.on(SocketEvent.EndTyping, (data) => {
+    socket.to(utils.getConversationRoom(data.conversationId)).emit(SocketEvent.EndTyping, data);
+  })
+
 }
