@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const {AccountState} = require("../../utils/Constant");
 const RequestModel = require("../request/RequestModel");
 const {DateTime} = require("luxon");
-const {RequestState} = require("../../utils/constant");
+const {RequestState, SocketEvent, OnlineState} = require("../../utils/constant");
 const ConversationModel = require("../conversation/ConversationModel");
 const utils = require("../../utils/utils");
 
@@ -115,6 +115,29 @@ class UserService {
         resolve(decoded);
       })
     });
+  }
+
+  async updateOnlineStatus(userId, socket, state) {
+    if (!Object.values(OnlineState).includes(state)) {
+      throw new Error('Invalid online state to update');
+    }
+
+    await UserModel.updateOne({
+      _id: userId
+    }, {
+      $set: {
+        onlineState: state
+      }
+    });
+
+    const user = await UserModel.findOne({
+      _id: userId
+    }, {
+      friends: 1
+    });
+
+    const {friends} = user;
+    socket.to(friends.map(f => utils.getConversationRoom(f.conversationId))).emit(SocketEvent.UpdateOnlineState, {userId, state});
   }
 }
 

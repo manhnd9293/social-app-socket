@@ -7,7 +7,10 @@ const SocketEvent = {
   NewConversation: 'new-conversation',
   AcceptRequest: 'accept-request',
   Typing: 'typing',
-  EndTyping: 'end-typing'
+  EndTyping: 'end-typing',
+  Disconnect: 'disconnect',
+  UpdateOnlineState: 'update-online-state'
+
 
 }
 
@@ -21,5 +24,10 @@ const AccountState = {
   Active: 'active'
 }
 
+const OnlineState = {
+  Online: 'online',
+  Offline: 'offline'
+}
 
-module.exports = {SocketEvent, RequestState, AccountState};
+
+module.exports = {SocketEvent, RequestState, AccountState, OnlineState};
