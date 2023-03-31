@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const http = require('http');
-
 const server = http.createServer(app);
 const {Server: IoServer} = require('socket.io');
 const {connectDb} = require("./config/db/mongo");
@@ -10,11 +9,33 @@ const registerUserHandlers = require('./services/user/UserHandler');
 const registerConversationHandler = require('./services/conversation/ConversationHandler');
 const registerRequestHandler = require('./services/request/RequestHandler');
 const {UserService} = require("./services/user/UserService");
+const utils = require("./utils/utils");
+const {verifyToken} = require("./middlewares/verifyToken");
+const {SocketEvent} = require("./utils/constant");
 const io = new IoServer(server, {
   cors: {
     origin: process.env.CLIENT_URL
   }
 });
+app.use(express.json());
+
+app.post('/socket-notification', verifyToken, async (req, res, next) => {
+  try {
+    const {to, from, type, date, payload} = req.body;
+    const room = utils.getNotiUserRoom(to);
+    io.to(room).emit(SocketEvent.Notification,{from, type, date, payload});
+    res.status(200).json({data: 'done'});
+  } catch (e) {
+    next(e)
+  }
+
+});
+
+app.use(async (err ,req, res, next) => {
+  console.log('fail to process request');
+  console.log(err);
+  res.status(500).json('Something went wrong');
+})
 
 
 io.on('connection', (socket) => {

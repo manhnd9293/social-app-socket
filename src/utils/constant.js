@@ -9,9 +9,9 @@ const SocketEvent = {
   Typing: 'typing',
   EndTyping: 'end-typing',
   Disconnect: 'disconnect',
-  UpdateOnlineState: 'update-online-state'
+  UpdateOnlineState: 'update-online-state',
 
-
+  Notification: 'notification'
 }
 
 const RequestState = {
