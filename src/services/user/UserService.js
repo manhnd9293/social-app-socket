@@ -1,10 +1,9 @@
 const UserModel = require("./UserModel");
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
-const {AccountState} = require("../../utils/Constant");
 const RequestModel = require("../request/RequestModel");
 const {DateTime} = require("luxon");
-const {RequestState, SocketEvent, OnlineState} = require("../../utils/constant");
+const {RequestState, SocketEvent, OnlineState, AccountState} = require("../../utils/constant");
 const ConversationModel = require("../conversation/ConversationModel");
 const utils = require("../../utils/utils");
 
