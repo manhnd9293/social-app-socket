@@ -21,9 +21,9 @@ app.use(express.json());
 
 app.post('/socket-notification', verifyToken, async (req, res, next) => {
   try {
-    const {to, from, type, date, payload} = req.body;
+    const {to, from, type, date, payload, unseen} = req.body;
     const room = utils.getNotiUserRoom(to);
-    io.to(room).emit(SocketEvent.Notification,{from, type, date, payload});
+    io.to(room).emit(SocketEvent.Notification,{from, type, date, payload, unseen});
     res.status(200).json({data: 'done'});
   } catch (e) {
     next(e)
