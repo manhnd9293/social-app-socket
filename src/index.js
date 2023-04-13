@@ -28,7 +28,18 @@ app.post('/socket-notification', verifyToken, async (req, res, next) => {
   } catch (e) {
     next(e)
   }
+});
 
+app.post('/socket-friend-request', verifyToken, async (req, res, next) => {
+  try {
+    const {to, from, date, payload, unseen} = req.body;
+    const room = utils.getNotiUserRoom(to);
+    io.to(room).emit(SocketEvent.FriendRequest, {from, date, payload, unseen});
+    res.status(200).json({data: 'done'});
+  } catch (e) {
+
+    next(e)
+  }
 });
 
 app.use(async (err ,req, res, next) => {
