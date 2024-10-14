@@ -12,6 +12,7 @@ const {UserService} = require("./services/user/UserService");
 const utils = require("./utils/utils");
 const {verifyToken} = require("./middlewares/verifyToken");
 const {SocketEvent} = require("./utils/constant");
+const {isApiServer} = require("./middlewares/isApiServer");
 const io = new IoServer(server, {
   cors: {
     origin: process.env.CLIENT_URL
@@ -19,7 +20,7 @@ const io = new IoServer(server, {
 });
 app.use(express.json());
 
-app.post('/socket-notification', verifyToken, async (req, res, next) => {
+app.post('/socket-notification', isApiServer, async (req, res, next) => {
   try {
     const {to, from, type, date, payload, unseen} = req.body;
     const room = utils.getNotiUserRoom(to);
@@ -30,7 +31,7 @@ app.post('/socket-notification', verifyToken, async (req, res, next) => {
   }
 });
 
-app.post('/socket-friend-request', verifyToken, async (req, res, next) => {
+app.post('/socket-friend-request', isApiServer, async (req, res, next) => {
   try {
     const {to, from, date, payload, unseen} = req.body;
     const room = utils.getNotiUserRoom(to);
@@ -66,7 +67,6 @@ io.on('connection', (socket) => {
       registerRequestHandler(io, socket, userId);
 
       socket.emit('auth-success', 'success');
-
     } catch (e) {
       console.log({e})
       socket.emit('error', e.message);
