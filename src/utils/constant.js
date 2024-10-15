@@ -11,7 +11,8 @@ const SocketEvent = {
   Disconnect: 'disconnect',
   UpdateOnlineState: 'update-online-state',
 
-  Notification: 'notification'
+  Notification: 'notification',
+  SeenMessage: 'seen-message'
 }
 
 const RequestState = {
