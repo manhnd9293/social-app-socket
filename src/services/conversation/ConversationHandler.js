@@ -30,4 +30,8 @@ module.exports = (io, socket, userId) => {
     socket.to(utils.getConversationRoom(data.conversationId)).emit(SocketEvent.EndTyping, data);
   })
 
+  socket.on(SocketEvent.SeenMessage, async ({messageId, conversationId}) => {
+    await ConversationService.updateSeenMessage({conversationId, messageId, userId});
+  })
+
 }
